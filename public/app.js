@@ -111,6 +111,9 @@ let dragThreshold = 150; // pixels to drag before unlock
 
 // Initialize
 function init() {
+    // Add initial class to album cover container
+    document.querySelector('.album-cover-container').classList.add('initial');
+    
     // Populate track list
     tracks.forEach((track, index) => {
         const trackElement = document.createElement('div');
@@ -210,7 +213,15 @@ function endDragging() {
 function unlockPlayer() {
     if (!isUnlocked) {
         isUnlocked = true;
+        
+        // Add blurred class to body
+        document.body.classList.add('blurred');
+        
+        // Add unlocked class to album cover
         albumCover.classList.add('unlocked');
+        
+        // Add unlocked class to container
+        document.querySelector('.album-cover-container').classList.add('unlocked');
         
         // Play unlock sound
         const unlockSound = new Audio('/audio/unlock.mp3');
