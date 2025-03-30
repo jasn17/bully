@@ -39,7 +39,7 @@ body::before {
 }
 
 body.blurred::before {
-    filter: blur(8px);
+    filter: blur(4px);
 }
 
 .app-container {
