@@ -8,7 +8,7 @@ const tracks = [
         cover: "/assets/cover1.jpg"
     },
     {
-        title: "Mine Forward",
+        title: "Mind Forward",
         artist: "Ye",
         duration: "1:53",
         audio: "/audio/MindForward.mp3",
@@ -50,7 +50,7 @@ const tracks = [
         cover: "/assets/cover2.jpg"
     },
     {
-        title: "Beauty and the Beast",
+        title: "Beauty And The Beast",
         artist: "Ye",
         duration: "1:46",
         audio: "/audio/BeautyAndTheBeast.mp3",
@@ -64,7 +64,7 @@ const tracks = [
         cover: "/assets/cover4.jpg"
     },
     {
-        title: "Highs and Lows",
+        title: "Highs And Lows",
         artist: "Ye",
         duration: "1:47",
         audio: "/audio/HighsAndLows.mp3",
@@ -75,7 +75,7 @@ const tracks = [
         artist: "Ye",
         duration: "3:39",
         audio: "/audio/Melrose.mp3",
-        cover: "/assets/cover5.jpg"
+        cover: "/assets/cover1.jpg"
     }
 ];
 
@@ -102,6 +102,12 @@ let isShuffled = false;
 let isRepeat = false;
 let audio = new Audio();
 let isUnlocked = false;
+
+// Drag to unlock state
+let isDragging = false;
+let startX = 0;
+let currentX = 0;
+let dragThreshold = 150; // pixels to drag before unlock
 
 // Initialize
 function init() {
@@ -137,18 +143,83 @@ function init() {
         audio.currentTime = clickPosition * audio.duration;
     });
 
-    // Set up unlock interaction
-    albumCover.addEventListener('click', unlockPlayer);
+    // Set up drag to unlock
+    setupDragToUnlock();
+}
+
+// Drag to unlock functionality
+function setupDragToUnlock() {
+    albumCover.addEventListener('mousedown', startDragging);
+    albumCover.addEventListener('mousemove', drag);
+    albumCover.addEventListener('mouseup', endDragging);
+    albumCover.addEventListener('mouseleave', endDragging);
+
+    // Touch events for mobile
+    albumCover.addEventListener('touchstart', startDragging);
+    albumCover.addEventListener('touchmove', drag);
+    albumCover.addEventListener('touchend', endDragging);
+}
+
+function startDragging(e) {
+    if (isUnlocked) return;
+    
+    isDragging = true;
+    albumCover.classList.add('dragging');
+    
+    // Get starting position
+    startX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
+    currentX = startX;
+    
+    // Prevent default to avoid text selection
+    e.preventDefault();
+}
+
+function drag(e) {
+    if (!isDragging) return;
+    
+    // Get current position
+    currentX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
+    
+    // Calculate drag distance
+    const dragDistance = currentX - startX;
+    
+    // Apply rotation based on drag distance
+    const rotation = Math.min(Math.max(dragDistance / 2, 0), dragThreshold);
+    albumCover.style.transform = `rotateY(${rotation}deg)`;
+}
+
+function endDragging() {
+    if (!isDragging) return;
+    
+    isDragging = false;
+    albumCover.classList.remove('dragging');
+    
+    // Calculate final drag distance
+    const dragDistance = currentX - startX;
+    
+    // If dragged far enough, unlock
+    if (dragDistance >= dragThreshold) {
+        unlockPlayer();
+    } else {
+        // Reset position if not dragged far enough
+        albumCover.style.transform = 'rotateY(0deg)';
+    }
 }
 
 // Unlock animation
 function unlockPlayer() {
     if (!isUnlocked) {
         isUnlocked = true;
-        albumCover.style.transform = 'rotateY(180deg)';
+        albumCover.classList.add('unlocked');
+        
+        // Play unlock sound
+        const unlockSound = new Audio('/audio/unlock.mp3');
+        unlockSound.volume = 0.3;
+        unlockSound.play();
+        
+        // Show player container
         setTimeout(() => {
-            playerContainer.style.opacity = '1';
-            playerContainer.style.transform = 'translateY(0)';
+            playerContainer.classList.add('visible');
         }, 500);
     }
 }
@@ -241,11 +312,19 @@ nextBtn.addEventListener('click', playNext);
 shuffleBtn.addEventListener('click', () => {
     isShuffled = !isShuffled;
     shuffleBtn.classList.toggle('active');
+    // Update icon to show active state
+    shuffleBtn.innerHTML = isShuffled ? 
+        '<svg class="icon" viewBox="0 0 24 24"><path d="M10.59 9.17L5.41 4L4 5.41l5.17 5.17L10.59 9.17zM14.5 4l2.04 2.04L4 18.59 5.41 20L17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41-1.41 3.13-3.13L14 5.41l5.5 5.5-3.67 3.5z"/></svg>' :
+        '<svg class="icon" viewBox="0 0 24 24"><path d="M10.59 9.17L5.41 4L4 5.41l5.17 5.17L10.59 9.17zM14.5 4l2.04 2.04L4 18.59 5.41 20L17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41-1.41 3.13-3.13L14 5.41l5.5 5.5-3.67 3.5z"/></svg>';
 });
 
 repeatBtn.addEventListener('click', () => {
     isRepeat = !isRepeat;
     repeatBtn.classList.toggle('active');
+    // Update icon to show active state
+    repeatBtn.innerHTML = isRepeat ? 
+        '<svg class="icon" viewBox="0 0 24 24"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg>' :
+        '<svg class="icon" viewBox="0 0 24 24"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg>';
 });
 
 // Initialize the player

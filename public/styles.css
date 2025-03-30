@@ -6,6 +6,7 @@
     --text-primary: #E0E0E0;
     --text-secondary: #A0A0A0;
     --accent-color: #FF3B3B;
+    --active-color: #FF3B3B;
 }
 
 * {
@@ -52,6 +53,8 @@ body {
     height: 300px;
     margin-bottom: 2rem;
     perspective: 1000px;
+    cursor: grab;
+    user-select: none;
 }
 
 .album-cover {
@@ -62,11 +65,29 @@ body {
     position: relative;
     transform-style: preserve-3d;
     transition: transform 0.5s ease;
-    cursor: pointer;
+    cursor: grab;
 }
 
-.album-cover:hover {
-    transform: rotateY(10deg);
+.album-cover.dragging {
+    cursor: grabbing;
+    transition: none;
+}
+
+.album-cover.unlocked {
+    transform: rotateY(180deg);
+    animation: unlockEffect 0.5s ease forwards;
+}
+
+@keyframes unlockEffect {
+    0% {
+        transform: rotateY(0deg);
+    }
+    50% {
+        transform: rotateY(90deg);
+    }
+    100% {
+        transform: rotateY(180deg);
+    }
 }
 
 .unlock-indicator {
@@ -88,6 +109,14 @@ body {
     padding: 2rem;
     border-radius: 8px;
     border: 1px solid rgba(255, 59, 59, 0.1);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.player-container.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .track-info {
@@ -145,11 +174,29 @@ body {
     color: var(--text-primary);
     cursor: pointer;
     padding: 0.5rem;
-    transition: color 0.2s ease;
+    transition: all 0.2s ease;
+    position: relative;
 }
 
 .control-btn:hover {
     color: var(--accent-color);
+    transform: scale(1.1);
+}
+
+.control-btn.active {
+    color: var(--active-color);
+}
+
+.control-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    background-color: var(--active-color);
+    border-radius: 50%;
 }
 
 .control-btn .icon {
@@ -166,10 +213,12 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: all 0.2s ease;
 }
 
 .play-btn:hover {
     background-color: #ff5252;
+    transform: scale(1.1);
 }
 
 .volume-container {
