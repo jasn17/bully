@@ -107,7 +107,8 @@ let isUnlocked = false;
 let isDragging = false;
 let startX = 0;
 let currentX = 0;
-let dragThreshold = 150; // pixels to drag before unlock
+let dragThreshold = 80; // Reduced from 150 to 80 pixels
+let dragSensitivity = 1.5; // Increased from 1 to 1.5 for more responsive dragging
 
 // Initialize
 function init() {
@@ -183,8 +184,8 @@ function drag(e) {
     // Get current position
     currentX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
     
-    // Calculate drag distance
-    const dragDistance = currentX - startX;
+    // Calculate drag distance with increased sensitivity
+    const dragDistance = (currentX - startX) * dragSensitivity;
     
     // Apply rotation based on drag distance
     const rotation = Math.min(Math.max(dragDistance / 2, 0), dragThreshold);
