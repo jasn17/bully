@@ -247,8 +247,8 @@ function playTrack(index) {
     trackTitle.textContent = tracks[index].title;
     trackArtist.textContent = tracks[index].artist;
     
-    // Update background
-    document.querySelector('.app-container').style.setProperty('--background-image', `url(${tracks[index].cover})`);
+    // Update background with the album cover
+    document.querySelector('.app-container').style.setProperty('--background-image', `url('/assets/bully.webp')`);
     
     // Update active track in list
     document.querySelectorAll('.track-item').forEach((item, i) => {
