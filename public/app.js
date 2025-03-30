@@ -4,78 +4,78 @@ const tracks = [
         title: "Preacher Man",
         artist: "Ye",
         duration: "3:02",
-        audio: "/audio/PreacherMan.mp3",
-        cover: "/assets/cover1.jpg"
+        audio: "audio/PreacherMan.mp3",
+        cover: "assets/cover1.jpg"
     },
     {
         title: "Mind Forward",
         artist: "Ye",
         duration: "1:53",
-        audio: "/audio/MindForward.mp3",
-        cover: "/assets/cover2.jpg"
+        audio: "audio/MindForward.mp3",
+        cover: "assets/cover2.jpg"
     },
     {
         title: "Close To You",
         artist: "Ye",
         duration: "1:53",
-        audio: "/audio/CloseToYou.mp3",
-        cover: "/assets/cover3.jpg"
+        audio: "audio/CloseToYou.mp3",
+        cover: "assets/cover3.jpg"
     },
     {
         title: "Circles",
         artist: "Ye",
         duration: "2:41",
-        audio: "/audio/circles.mp3",
-        cover: "/assets/cover4.jpg"
+        audio: "audio/circles.mp3",
+        cover: "assets/cover4.jpg"
     },
     {
         title: "Seratonin",
         artist: "Ye",
         duration: "2:42",
-        audio: "/audio/Seratonin.mp3",
-        cover: "/assets/cover5.jpg"
+        audio: "audio/Seratonin.mp3",
+        cover: "assets/cover5.jpg"
     },
     {
         title: "Besame Mama",
         artist: "Ye",
         duration: "2:08",
-        audio: "/audio/BesameMama.mp3",
-        cover: "/assets/cover1.jpg"
+        audio: "audio/BesameMama.mp3",
+        cover: "assets/cover1.jpg"
     },
     {
         title: "Losing Your Mind",
         artist: "Ye",
         duration: "3:24",
-        audio: "/audio/LosingYourMind.mp3",
-        cover: "/assets/cover2.jpg"
+        audio: "audio/LosingYourMind.mp3",
+        cover: "assets/cover2.jpg"
     },
     {
         title: "Beauty And The Beast",
         artist: "Ye",
         duration: "1:46",
-        audio: "/audio/BeautyAndTheBeast.mp3",
-        cover: "/assets/cover3.jpg"
+        audio: "audio/BeautyAndTheBeast.mp3",
+        cover: "assets/cover3.jpg"
     },
     {
         title: "Showtime",
         artist: "Ye",
         duration: "3:18",
-        audio: "/audio/Showtime.mp3",
-        cover: "/assets/cover4.jpg"
+        audio: "audio/Showtime.mp3",
+        cover: "assets/cover4.jpg"
     },
     {
         title: "Highs And Lows",
         artist: "Ye",
         duration: "1:47",
-        audio: "/audio/HighsAndLows.mp3",
-        cover: "/assets/cover5.jpg"
+        audio: "audio/HighsAndLows.mp3",
+        cover: "assets/cover5.jpg"
     },
     {
         title: "Melrose",
         artist: "Ye",
         duration: "3:39",
-        audio: "/audio/Melrose.mp3",
-        cover: "/assets/cover1.jpg"
+        audio: "audio/Melrose.mp3",
+        cover: "assets/cover1.jpg"
     }
 ];
 
@@ -225,7 +225,7 @@ function unlockPlayer() {
         document.querySelector('.album-cover-container').classList.add('unlocked');
         
         // Play unlock sound
-        const unlockSound = new Audio('/audio/unlock.mp3');
+        const unlockSound = new Audio('audio/unlock.mp3');
         unlockSound.volume = 0.3;
         unlockSound.play();
         
