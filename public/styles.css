@@ -30,7 +30,7 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('bullyangle.jpg');
+    background-image: url('./assets/bullyangle.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -181,7 +181,7 @@ body.blurred::before {
     transform-style: preserve-3d;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: grab;
-    background-image: url('bully.webp');
+    background-image: url('./assets/bully.webp');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
