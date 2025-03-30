@@ -29,7 +29,8 @@ body {
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    padding: 2rem;
+    height: 100vh;
+    padding: 0;
     position: relative;
     overflow: hidden;
     background-color: var(--matte-black);
@@ -52,61 +53,90 @@ body {
 .album-cover-container {
     width: 300px;
     height: 300px;
-    margin-bottom: 2rem;
     perspective: 1000px;
     cursor: grab;
     user-select: none;
     position: relative;
+    margin: 0;
 }
 
 .drag-prompt {
     position: absolute;
-    bottom: -40px;
+    bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    animation: pulsePrompt 2s infinite;
-    opacity: 0.7;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
     pointer-events: none;
+    z-index: 2;
 }
 
-.drag-prompt::before {
-    content: '';
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    margin-right: 8px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23A0A0A0'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z'/%3E%3C/svg%3E");
-    background-size: contain;
-    background-repeat: no-repeat;
+.drag-arrow {
+    width: 40px;
+    height: 40px;
+    background-color: rgba(255, 59, 59, 0.2);
+    border: 2px solid var(--accent-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: pulseArrow 2s infinite;
+}
+
+.drag-arrow svg {
+    width: 24px;
+    height: 24px;
+    fill: var(--accent-color);
     animation: slideArrow 2s infinite;
-    vertical-align: middle;
 }
 
-@keyframes pulsePrompt {
+.drag-label {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.8;
+    animation: fadeLabel 2s infinite;
+}
+
+@keyframes pulseArrow {
     0% {
-        opacity: 0.7;
+        transform: scale(1);
+        opacity: 0.8;
     }
     50% {
+        transform: scale(1.1);
         opacity: 1;
     }
     100% {
-        opacity: 0.7;
+        transform: scale(1);
+        opacity: 0.8;
     }
 }
 
 @keyframes slideArrow {
     0% {
-        transform: translateX(0);
+        transform: translateX(-4px);
     }
     50% {
-        transform: translateX(10px);
+        transform: translateX(4px);
     }
     100% {
-        transform: translateX(0);
+        transform: translateX(-4px);
+    }
+}
+
+@keyframes fadeLabel {
+    0% {
+        opacity: 0.6;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.6;
     }
 }
 
@@ -117,13 +147,13 @@ body {
     border: 2px solid var(--accent-color);
     position: relative;
     transform-style: preserve-3d;
-    transition: transform 0.5s ease;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: grab;
     background-image: url('/assets/bully.webp');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
 }
 
 .album-cover::before {
@@ -149,7 +179,7 @@ body {
 
 .album-cover.unlocked {
     transform: rotateY(180deg);
-    animation: unlockEffect 0.5s ease forwards;
+    animation: unlockEffect 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .album-cover.unlocked::before {
