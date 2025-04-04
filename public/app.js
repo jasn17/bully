@@ -175,24 +175,24 @@ function init() {
 
 // Drag to unlock functionality
 function setupDragToUnlock() {
-    const albumCover = document.querySelector('.album-cover');
+    const albumCover = document.getElementById('albumCover');
     
     albumCover.addEventListener('mousedown', startDragging);
-    albumCover.addEventListener('mousemove', drag);
-    albumCover.addEventListener('mouseup', endDragging);
+    document.addEventListener('mousemove', drag);
+    document.addEventListener('mouseup', endDragging);
     albumCover.addEventListener('mouseleave', endDragging);
 
     // Touch events for mobile
     albumCover.addEventListener('touchstart', startDragging);
-    albumCover.addEventListener('touchmove', drag);
-    albumCover.addEventListener('touchend', endDragging);
+    document.addEventListener('touchmove', drag);
+    document.addEventListener('touchend', endDragging);
 }
 
 function startDragging(e) {
     if (isUnlocked) return;
     
     isDragging = true;
-    const albumCover = document.querySelector('.album-cover');
+    const albumCover = document.getElementById('albumCover');
     albumCover.classList.add('dragging');
     
     // Get starting position
@@ -214,7 +214,7 @@ function drag(e) {
     
     // Apply rotation based on drag distance
     const rotation = Math.min(Math.max(dragDistance / 2, 0), dragThreshold);
-    const albumCover = document.querySelector('.album-cover');
+    const albumCover = document.getElementById('albumCover');
     albumCover.style.transform = `rotateY(${rotation}deg)`;
 }
 
@@ -222,17 +222,16 @@ function endDragging() {
     if (!isDragging) return;
     
     isDragging = false;
-    const albumCover = document.querySelector('.album-cover');
+    const albumCover = document.getElementById('albumCover');
     albumCover.classList.remove('dragging');
     
-    // Calculate final drag distance
-    const dragDistance = currentX - startX;
+    // Calculate final drag distance with sensitivity applied
+    const dragDistance = (currentX - startX) * dragSensitivity;
     
-    // If dragged far enough, unlock
+    // If dragged far enough, unlock; otherwise, reset position
     if (dragDistance >= dragThreshold) {
         unlockPlayer();
     } else {
-        // Reset position if not dragged far enough
         albumCover.style.transform = 'rotateY(0deg)';
     }
 }
