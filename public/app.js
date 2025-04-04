@@ -137,6 +137,9 @@ function init() {
     // Set initial title
     document.title = "B U L L Y";
     
+    // Set up drag to unlock first
+    setupDragToUnlock();
+    
     // Populate track list
     tracks.forEach((track, index) => {
         const trackElement = document.createElement('div');
@@ -168,22 +171,21 @@ function init() {
         const clickPosition = e.offsetX / progressContainer.offsetWidth;
         audio.currentTime = clickPosition * audio.duration;
     });
-
-    // Set up drag to unlock
-    setupDragToUnlock();
 }
 
 // Drag to unlock functionality
 function setupDragToUnlock() {
     const albumCover = document.getElementById('albumCover');
+    const container = document.querySelector('.album-cover-container');
     
-    albumCover.addEventListener('mousedown', startDragging);
+    // Mouse events
+    container.addEventListener('mousedown', startDragging);
     document.addEventListener('mousemove', drag);
     document.addEventListener('mouseup', endDragging);
-    albumCover.addEventListener('mouseleave', endDragging);
+    container.addEventListener('mouseleave', endDragging);
 
     // Touch events for mobile
-    albumCover.addEventListener('touchstart', startDragging);
+    container.addEventListener('touchstart', startDragging);
     document.addEventListener('touchmove', drag);
     document.addEventListener('touchend', endDragging);
 }

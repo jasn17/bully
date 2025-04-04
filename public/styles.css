@@ -61,6 +61,7 @@ body.blurred::before {
     position: relative;
     margin: 0;
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
 }
 
 .album-cover-container.initial {
@@ -194,6 +195,7 @@ body.blurred::before {
     background-repeat: no-repeat;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
     will-change: transform;
+    backface-visibility: hidden;
 }
 
 .album-cover::before {
