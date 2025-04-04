@@ -1,6 +1,13 @@
 // Track data
 const tracks = [
     {
+        title: "WW3",
+        artist: "Ye",
+        duration: "3:02",
+        audio: "./audio/WW3.mp3",
+        cover: "./assets/ww3cover.jpeg"
+    },
+    {
         title: "Preacher Man",
         artist: "Ye",
         duration: "3:02",
@@ -76,6 +83,13 @@ const tracks = [
         duration: "3:39",
         audio: "./audio/Melrose.mp3",
         cover: "./assets/cover1.jpg"
+    },
+    {
+        title: "Bianca",
+        artist: "Ye",
+        duration: "2:30",
+        audio: "./audio/bianca.mp3",
+        cover: "./assets/ww3cover.jpeg"
     }
 ];
 
