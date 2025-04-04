@@ -134,6 +134,9 @@ function init() {
     const albumCoverContainer = document.querySelector('.album-cover-container');
     albumCoverContainer.classList.add('initial');
     
+    // Set initial title
+    document.title = "B U L L Y";
+    
     // Populate track list
     tracks.forEach((track, index) => {
         const trackElement = document.createElement('div');
@@ -291,6 +294,9 @@ function playTrack(index) {
     trackTitle.textContent = track.title;
     trackArtist.textContent = track.artist;
     albumCover.style.backgroundImage = `url('${track.cover}')`;
+    
+    // Update page title
+    document.title = `${track.title} - ${track.artist} | B U L L Y`;
     
     // Change background if specified
     if (track.background) {
