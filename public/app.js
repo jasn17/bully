@@ -3,7 +3,7 @@ const tracks = [
     {
         title: "WW3",
         artist: "Ye",
-        duration: "3:02",
+        duration: "1:43",
         audio: "./audio/WW3.mp3",
         cover: "./assets/ww3cover.jpeg"
     },
@@ -87,7 +87,7 @@ const tracks = [
     {
         title: "Bianca",
         artist: "Ye",
-        duration: "2:30",
+        duration: "2:10",
         audio: "./audio/bianca.mp3",
         cover: "./assets/ww3cover.jpeg"
     }
@@ -135,6 +135,9 @@ function init() {
     
     // Set up drag to unlock first
     setupDragToUnlock();
+    
+    // Set up collapsible playlist on mobile
+    setupCollapsiblePlaylist();
     
     // Populate track list
     tracks.forEach((track, index) => {
@@ -362,6 +365,17 @@ repeatBtn.addEventListener('click', () => {
         '<svg class="icon" viewBox="0 0 24 24"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg>' :
         '<svg class="icon" viewBox="0 0 24 24"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg>';
 });
+
+// Set up collapsible playlist on mobile
+function setupCollapsiblePlaylist() {
+    const playlistHeader = document.getElementById('playlistHeader');
+    if (playlistHeader) {
+        playlistHeader.addEventListener('click', () => {
+            playlistHeader.classList.toggle('collapsed');
+            trackList.classList.toggle('collapsed');
+        });
+    }
+}
 
 // Initialize the player
 init(); 
