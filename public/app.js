@@ -1,11 +1,28 @@
 // Track data
 const tracks = [
     {
+        title: "WW3",
+        artist: "Ye",
+        duration: "3:02",
+        audio: "./audio/WW3.mp3",
+        cover: "./assets/ww3cover.jpeg",
+        background: "./assets/ww3.jpeg",
+        specialEffect: "minions"
+    },
+    {
+        title: "Bianca",
+        artist: "Ye",
+        duration: "2:30",
+        audio: "./audio/bianca.mp3",
+        cover: "./assets/ww3cover.jpeg",
+        background: "./assets/album.jpeg"
+    },
+    {
         title: "Preacher Man",
         artist: "Ye",
         duration: "3:02",
         audio: "./audio/PreacherMan.mp3",
-        cover: "./assets/cover1.jpg"
+        cover: "./assets/ww3cover.jpeg"
     },
     {
         title: "Mind Forward",
@@ -33,7 +50,8 @@ const tracks = [
         artist: "Ye",
         duration: "2:42",
         audio: "./audio/Seratonin.mp3",
-        cover: "./assets/cover5.jpg"
+        cover: "./assets/ww3cover.jpeg",
+        background: "./assets/bully.webp"
     },
     {
         title: "Besame Mama",
@@ -236,40 +254,61 @@ function unlockPlayer() {
     }
 }
 
-// Play/Pause functionality
-function togglePlay() {
-    if (!isUnlocked) return;
-    
-    if (isPlaying) {
-        audio.pause();
-        playBtn.innerHTML = '<svg class="icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
-    } else {
-        audio.play();
-        playBtn.innerHTML = '<svg class="icon" viewBox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/></svg>';
-    }
-    isPlaying = !isPlaying;
+// Background transition
+function changeBackground(imagePath) {
+    const body = document.body;
+    body.style.transition = 'background-image 0.5s ease-in-out';
+    body.style.backgroundImage = `url('${imagePath}')`;
 }
 
-// Play specific track
+// Minion animation
+function showMinions() {
+    const minions = document.createElement('div');
+    minions.className = 'minions-animation';
+    minions.innerHTML = '<img src="./assets/bsh.png" alt="Minions">';
+    document.body.appendChild(minions);
+
+    // Remove after animation
+    setTimeout(() => {
+        minions.remove();
+    }, 2000);
+}
+
+// Play track function
 function playTrack(index) {
     if (!isUnlocked) return;
     
     currentTrack = index;
-    audio.src = tracks[index].audio;
-    trackTitle.textContent = tracks[index].title;
-    trackArtist.textContent = tracks[index].artist;
+    const track = tracks[currentTrack];
     
-    // Update background with the album cover
-    document.querySelector('.app-container').style.setProperty('--background-image', `url('/assets/bully.webp')`);
+    // Update track info
+    trackTitle.textContent = track.title;
+    trackArtist.textContent = track.artist;
+    albumCover.style.backgroundImage = `url('${track.cover}')`;
+    
+    // Change background if specified
+    if (track.background) {
+        changeBackground(track.background);
+    } else {
+        changeBackground('./assets/bullyangle.jpg');
+    }
+    
+    // Load and play audio
+    audio.src = track.audio;
+    audio.load();
+    audio.play();
+    isPlaying = true;
+    playBtn.innerHTML = '<svg class="icon" viewBox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/></svg>';
     
     // Update active track in list
     document.querySelectorAll('.track-item').forEach((item, i) => {
         item.classList.toggle('active', i === index);
     });
     
-    audio.play();
-    isPlaying = true;
-    playBtn.innerHTML = '<svg class="icon" viewBox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/></svg>';
+    // Show minions animation if specified
+    if (track.specialEffect === 'minions') {
+        showMinions();
+    }
 }
 
 // Handle track end
