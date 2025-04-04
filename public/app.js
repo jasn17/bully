@@ -131,7 +131,8 @@ let dragSensitivity = 1.5; // Increased from 1 to 1.5 for more responsive draggi
 // Initialize
 function init() {
     // Add initial class to album cover container
-    document.querySelector('.album-cover-container').classList.add('initial');
+    const albumCoverContainer = document.querySelector('.album-cover-container');
+    albumCoverContainer.classList.add('initial');
     
     // Populate track list
     tracks.forEach((track, index) => {
@@ -171,6 +172,8 @@ function init() {
 
 // Drag to unlock functionality
 function setupDragToUnlock() {
+    const albumCover = document.querySelector('.album-cover');
+    
     albumCover.addEventListener('mousedown', startDragging);
     albumCover.addEventListener('mousemove', drag);
     albumCover.addEventListener('mouseup', endDragging);
@@ -186,6 +189,7 @@ function startDragging(e) {
     if (isUnlocked) return;
     
     isDragging = true;
+    const albumCover = document.querySelector('.album-cover');
     albumCover.classList.add('dragging');
     
     // Get starting position
@@ -207,6 +211,7 @@ function drag(e) {
     
     // Apply rotation based on drag distance
     const rotation = Math.min(Math.max(dragDistance / 2, 0), dragThreshold);
+    const albumCover = document.querySelector('.album-cover');
     albumCover.style.transform = `rotateY(${rotation}deg)`;
 }
 
@@ -214,6 +219,7 @@ function endDragging() {
     if (!isDragging) return;
     
     isDragging = false;
+    const albumCover = document.querySelector('.album-cover');
     albumCover.classList.remove('dragging');
     
     // Calculate final drag distance

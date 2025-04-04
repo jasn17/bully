@@ -58,16 +58,14 @@ body.blurred::before {
     perspective: 1000px;
     cursor: grab;
     user-select: none;
-    position: relative;
-    margin: 0;
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.album-cover-container.initial {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.album-cover-container.initial {
     width: 450px;
     height: 450px;
 }
@@ -181,7 +179,7 @@ body.blurred::before {
     transform-style: preserve-3d;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: grab;
-    background-image: url('./assets/bully.webp');
+    background-image: url('./assets/ww3cover.jpeg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
