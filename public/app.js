@@ -121,8 +121,8 @@ let isUnlocked = false;
 let isDragging = false;
 let startX = 0;
 let currentX = 0;
-let dragThreshold = 80; // Reduced from 150 to 80 pixels
-let dragSensitivity = 1.5; // Increased from 1 to 1.5 for more responsive dragging
+let dragThreshold = 80;
+let dragSensitivity = 1.5;
 
 // Initialize
 function init() {
@@ -171,21 +171,27 @@ function init() {
         audio.currentTime = clickPosition * audio.duration;
     });
 }
+
 // Drag to unlock functionality
 function setupDragToUnlock() {
     const albumCover = document.getElementById('albumCover');
     const container = document.querySelector('.album-cover-container');
     
+    if (!albumCover || !container) {
+        console.error('Album cover elements not found');
+        return;
+    }
+
     // Mouse events
     container.addEventListener('mousedown', startDragging);
-    document.addEventListener('mousemove', drag);
-    document.addEventListener('mouseup', endDragging);
+    window.addEventListener('mousemove', drag);
+    window.addEventListener('mouseup', endDragging);
     container.addEventListener('mouseleave', endDragging);
 
     // Touch events for mobile
-    container.addEventListener('touchstart', startDragging);
-    document.addEventListener('touchmove', drag);
-    document.addEventListener('touchend', endDragging);
+    container.addEventListener('touchstart', startDragging, { passive: false });
+    window.addEventListener('touchmove', drag, { passive: false });
+    window.addEventListener('touchend', endDragging);
 }
 
 function startDragging(e) {
@@ -193,6 +199,8 @@ function startDragging(e) {
     
     isDragging = true;
     const albumCover = document.getElementById('albumCover');
+    if (!albumCover) return;
+    
     albumCover.classList.add('dragging');
     
     // Get starting position
@@ -206,6 +214,9 @@ function startDragging(e) {
 function drag(e) {
     if (!isDragging) return;
     
+    const albumCover = document.getElementById('albumCover');
+    if (!albumCover) return;
+    
     // Get current position
     currentX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
     
@@ -214,8 +225,10 @@ function drag(e) {
     
     // Apply rotation based on drag distance
     const rotation = Math.min(Math.max(dragDistance / 2, 0), dragThreshold);
-    const albumCover = document.getElementById('albumCover');
     albumCover.style.transform = `rotateY(${rotation}deg)`;
+    
+    // Prevent default to avoid scrolling
+    e.preventDefault();
 }
 
 function endDragging() {
@@ -223,6 +236,8 @@ function endDragging() {
     
     isDragging = false;
     const albumCover = document.getElementById('albumCover');
+    if (!albumCover) return;
+    
     albumCover.classList.remove('dragging');
     
     // Calculate final drag distance with sensitivity applied

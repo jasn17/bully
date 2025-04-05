@@ -71,6 +71,7 @@ body.blurred::before {
     transform: translate(-50%, -50%);
     width: 450px;
     height: 450px;
+    z-index: 1000;
 }
 
 @media (max-width: 768px) {
@@ -212,6 +213,7 @@ body.blurred::before {
 .album-cover.dragging {
     cursor: grabbing;
     transition: none;
+    transform-style: preserve-3d;
 }
 
 .album-cover.unlocked {
