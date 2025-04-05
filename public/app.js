@@ -171,7 +171,6 @@ function init() {
         audio.currentTime = clickPosition * audio.duration;
     });
 }
-
 // Drag to unlock functionality
 function setupDragToUnlock() {
     const albumCover = document.getElementById('albumCover');
